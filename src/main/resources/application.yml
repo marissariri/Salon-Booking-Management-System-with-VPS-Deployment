@@ -1,0 +1,22 @@
+server:
+  port: ${APP_PORT:8081}
+
+spring:
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:salon_booking_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:1234}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.sql
+    enabled: true

@@ -56,7 +56,6 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
           source: "docker-compose.yml"
           target: "${{ env.APP_DIR }}"
           overwrite: true
@@ -68,7 +67,6 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
           script: |
             cd ${{ env.APP_DIR }}
             echo "🚀 Starting deployment..."

@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: marissa
+      changes:
+        - createTable:
+            tableName: services
+            columns:
+              - column:
+                  name: id
+                  type: VARCHAR(21)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: service_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: price
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duration_minutes
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  defaultValue: 'ACTIVE'
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP

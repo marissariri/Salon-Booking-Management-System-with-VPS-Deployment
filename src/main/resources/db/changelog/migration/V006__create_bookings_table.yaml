@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: marissa
+      changes:
+        - createTable:
+            tableName: bookings
+            columns:
+              - column:
+                  name: id
+                  type: VARCHAR(21)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: VARCHAR(21)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: schedule_id
+                  type: VARCHAR(21)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: service_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: booking_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: booking_status
+                  type: VARCHAR(20)
+                  defaultValue: 'PENDING_PAYMENT'
+              - column:
+                  name: notes
+                  type: TEXT
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+        - addForeignKeyConstraint:
+            baseTableName: bookings
+            baseColumnNames: user_id
+            constraintName: fk_booking_user
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: bookings
+            baseColumnNames: schedule_id
+            constraintName: fk_booking_schedule
+            referencedTableName: schedules
+            referencedColumnNames: id

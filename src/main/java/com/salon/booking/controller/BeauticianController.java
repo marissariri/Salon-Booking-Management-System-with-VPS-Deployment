@@ -1,6 +1,7 @@
 package com.salon.booking.controller;
 
-import com.salon.booking.entity.Beautician;
+import com.salon.booking.dto.BeauticianRequestDTO;
+import com.salon.booking.dto.BeauticianResponseDTO;
 import com.salon.booking.service.BeauticianService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,22 +18,22 @@ public class BeauticianController {
     private final BeauticianService service;
 
     @GetMapping
-    public List<Beautician> getAll() {
+    public List<BeauticianResponseDTO> getAll() {
         return service.getAll();
     }
 
     @PostMapping
-    public ResponseEntity<Beautician> create(@RequestBody Beautician beautician) {
+    public ResponseEntity<BeauticianResponseDTO> create(@RequestBody BeauticianRequestDTO beautician) {
         return new ResponseEntity<>(service.create(beautician), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Beautician update(@PathVariable Long id, @RequestBody Beautician beautician) {
+    public BeauticianResponseDTO update(@PathVariable String id, @RequestBody BeauticianRequestDTO beautician) {
         return service.update(id, beautician);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

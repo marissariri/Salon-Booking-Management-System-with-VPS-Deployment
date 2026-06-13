@@ -6,8 +6,8 @@ import java.time.LocalTime;
 
 @Data
 public class ScheduleRequestDTO {
-    private Long serviceId;
-    private Long beauticianId;
+    private String serviceId;
+    private String beauticianId;
     private LocalDate scheduleDate;
     private LocalTime startTime;
     private LocalTime endTime;

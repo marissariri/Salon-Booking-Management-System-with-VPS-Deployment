@@ -15,6 +15,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -26,6 +30,7 @@ public class AuthService {
 
     public AuthResponseDTO register(RegisterRequestDTO request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            log.warn("Registration failed: Email {} is already registered", request.getEmail());
             throw new RuntimeException("Email is already registered");
         }
 
@@ -43,6 +48,8 @@ public class AuthService {
         
         CustomUserDetails userDetails = new CustomUserDetails(savedUser);
         String token = jwtUtils.generateToken(userDetails);
+
+        log.info("User registered successfully with email: {}", savedUser.getEmail());
 
         return new AuthResponseDTO(
                 token,
@@ -64,6 +71,8 @@ public class AuthService {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = userDetails.getUser();
         String token = jwtUtils.generateToken(userDetails);
+
+        log.info("User logged in successfully: {}", user.getEmail());
 
         return new AuthResponseDTO(
                 token,

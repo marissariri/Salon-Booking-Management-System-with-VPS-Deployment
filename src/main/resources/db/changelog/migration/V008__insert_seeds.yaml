@@ -1,0 +1,107 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: marissa
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  value: "R1-ADMIN"
+              - column:
+                  name: role_name
+                  value: "ADMIN"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  value: "R2-CUSTOMER"
+              - column:
+                  name: role_name
+                  value: "CUSTOMER"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: "U1-ADMIN-1"
+              - column:
+                  name: full_name
+                  value: "Admin Salon"
+              - column:
+                  name: email
+                  value: "admin@salon.com"
+              - column:
+                  name: password
+                  value: "$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIvi"
+              - column:
+                  name: phone_number
+                  value: "081234567890"
+              - column:
+                  name: role_id
+                  value: "R1-ADMIN"
+        - insert:
+            tableName: services
+            columns:
+              - column:
+                  name: id
+                  value: "S1-FACIAL"
+              - column:
+                  name: service_name
+                  value: "Facial Glow"
+              - column:
+                  name: description
+                  value: "Facial untuk mencerahkan wajah"
+              - column:
+                  name: price
+                  valueNumeric: 250000.00
+              - column:
+                  name: duration_minutes
+                  valueNumeric: 60
+              - column:
+                  name: status
+                  value: "ACTIVE"
+        - insert:
+            tableName: beauticians
+            columns:
+              - column:
+                  name: id
+                  value: "B1-SARAH"
+              - column:
+                  name: full_name
+                  value: "Sarah Lee"
+              - column:
+                  name: specialty
+                  value: "Facial Expert"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+        - insert:
+            tableName: schedules
+            columns:
+              - column:
+                  name: id
+                  value: "SCH1-001"
+              - column:
+                  name: service_id
+                  value: "S1-FACIAL"
+              - column:
+                  name: beautician_id
+                  value: "B1-SARAH"
+              - column:
+                  name: schedule_date
+                  valueDate: "2026-06-01"
+              - column:
+                  name: start_time
+                  value: "10:00:00"
+              - column:
+                  name: end_time
+                  value: "11:00:00"
+              - column:
+                  name: max_slot
+                  valueNumeric: 1
+              - column:
+                  name: available_slot
+                  valueNumeric: 1

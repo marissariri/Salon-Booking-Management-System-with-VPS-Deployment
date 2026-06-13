@@ -18,5 +18,5 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
 
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.sql
+    change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true

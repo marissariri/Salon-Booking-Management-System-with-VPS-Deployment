@@ -15,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookingService {
@@ -29,11 +34,12 @@ public class BookingService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        Schedule schedule = scheduleRepository.findById(request.getScheduleId())
+        Schedule schedule = scheduleRepository.findByIdWithPessimisticLock(request.getScheduleId())
                 .orElseThrow(() -> new ResourceNotFoundException("Schedule not found"));
 
         // 1. Cek Ketersediaan Jadwal (Concurrency Check)
         if (schedule.getAvailableSlot() <= 0) {
+            log.warn("Booking failed: Schedule {} is already full for user {}", schedule.getId(), user.getId());
             throw new SlotFullException("Maaf, slot jadwal ini baru saja penuh. Silakan pilih jadwal lain.");
         }
 
@@ -66,6 +72,8 @@ public class BookingService {
         response.setBookingDate(booking.getBookingDate());
         response.setBookingStatus(booking.getBookingStatus().name());
         response.setMessage("Booking berhasil diamankan. Silakan lanjutkan ke pembayaran.");
+
+        log.info("Booking created successfully with ID: {} for user: {}", booking.getId(), user.getId());
 
         return response;
     }

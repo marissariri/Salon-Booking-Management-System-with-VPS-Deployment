@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -44,6 +49,8 @@ public class PaymentService {
             
             paymentRepository.save(payment);
             bookingRepository.save(booking);
+            
+            log.info("Payment success for booking {}", booking.getId());
             return "Pembayaran Sukses. Booking telah di-Confirm!";
         } else {
             // Gagal / Cancel
@@ -60,6 +67,7 @@ public class PaymentService {
             bookingRepository.save(booking);
             scheduleRepository.save(schedule);
             
+            log.info("Payment failed for booking {}. Slot returned for schedule {}", booking.getId(), schedule.getId());
             return "Pembayaran Gagal. Slot dikembalikan.";
         }
     }

@@ -18,7 +18,7 @@ public class MasterBeautyService {
         return repository.findAll();
     }
 
-    public BeautyService getServiceById(Long id) {
+    public BeautyService getServiceById(String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service not found"));
     }
@@ -27,7 +27,7 @@ public class MasterBeautyService {
         return repository.save(service);
     }
 
-    public BeautyService updateService(Long id, BeautyService serviceDetails) {
+    public BeautyService updateService(String id, BeautyService serviceDetails) {
         BeautyService service = getServiceById(id);
         service.setServiceName(serviceDetails.getServiceName());
         service.setDescription(serviceDetails.getDescription());
@@ -37,7 +37,7 @@ public class MasterBeautyService {
         return repository.save(service);
     }
 
-    public void deleteService(Long id) {
+    public void deleteService(String id) {
         BeautyService service = getServiceById(id);
         repository.delete(service);
     }

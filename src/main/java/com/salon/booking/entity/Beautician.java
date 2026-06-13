@@ -5,14 +5,22 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
+import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
+
 @Entity
 @Table(name = "beauticians")
 @Getter
 @Setter
 public class Beautician {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.id == null) {
+            this.id = NanoIdUtils.randomNanoId(NanoIdUtils.DEFAULT_NUMBER_GENERATOR, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray(), 10);
+        }
+    }
 
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;

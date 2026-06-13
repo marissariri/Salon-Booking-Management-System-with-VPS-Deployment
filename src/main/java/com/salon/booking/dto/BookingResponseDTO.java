@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Data
 public class BookingResponseDTO {
-    private Long bookingId;
+    private String bookingId;
     private String serviceName;
     private String beauticianName;
     private LocalDate bookingDate;

@@ -22,7 +22,7 @@ public class BeautyServiceController {
     }
 
     @GetMapping("/{id}")
-    public BeautyService getById(@PathVariable Long id) {
+    public BeautyService getById(@PathVariable String id) {
         return service.getServiceById(id);
     }
 
@@ -32,12 +32,12 @@ public class BeautyServiceController {
     }
 
     @PutMapping("/{id}")
-    public BeautyService update(@PathVariable Long id, @RequestBody BeautyService beautyService) {
+    public BeautyService update(@PathVariable String id, @RequestBody BeautyService beautyService) {
         return service.updateService(id, beautyService);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         service.deleteService(id);
         return ResponseEntity.noContent().build();
     }

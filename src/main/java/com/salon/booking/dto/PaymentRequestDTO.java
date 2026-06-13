@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Data
 public class PaymentRequestDTO {
     @NotNull(message = "Booking ID is required")
-    private Long bookingId;
+    private String bookingId;
 
     private String paymentMethod;
     

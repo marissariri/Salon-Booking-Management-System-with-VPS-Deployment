@@ -1,5 +1,7 @@
 package com.salon.booking.service;
 
+import com.salon.booking.dto.BeauticianRequestDTO;
+import com.salon.booking.dto.BeauticianResponseDTO;
 import com.salon.booking.entity.Beautician;
 import com.salon.booking.exception.ResourceNotFoundException;
 import com.salon.booking.repository.BeauticianRepository;
@@ -7,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -14,29 +17,44 @@ public class BeauticianService {
 
     private final BeauticianRepository repository;
 
-    public List<Beautician> getAll() {
-        return repository.findAll();
+    public List<BeauticianResponseDTO> getAll() {
+        return repository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    public Beautician getById(Long id) {
+    public Beautician getById(String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Beautician not found"));
     }
 
-    public Beautician create(Beautician beautician) {
-        return repository.save(beautician);
+    public BeauticianResponseDTO create(BeauticianRequestDTO request) {
+        Beautician beautician = new Beautician();
+        beautician.setFullName(request.getFullName());
+        beautician.setSpecialty(request.getSpecialty());
+        beautician.setStatus(request.getStatus() != null ? request.getStatus() : "ACTIVE");
+        return mapToDTO(repository.save(beautician));
     }
 
-    public Beautician update(Long id, Beautician details) {
+    public BeauticianResponseDTO update(String id, BeauticianRequestDTO request) {
         Beautician beautician = getById(id);
-        beautician.setFullName(details.getFullName());
-        beautician.setSpecialty(details.getSpecialty());
-        beautician.setStatus(details.getStatus());
-        return repository.save(beautician);
+        beautician.setFullName(request.getFullName());
+        beautician.setSpecialty(request.getSpecialty());
+        if (request.getStatus() != null) {
+            beautician.setStatus(request.getStatus());
+        }
+        return mapToDTO(repository.save(beautician));
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         Beautician beautician = getById(id);
         repository.delete(beautician);
+    }
+
+    private BeauticianResponseDTO mapToDTO(Beautician entity) {
+        BeauticianResponseDTO dto = new BeauticianResponseDTO();
+        dto.setId(entity.getId());
+        dto.setFullName(entity.getFullName());
+        dto.setSpecialty(entity.getSpecialty());
+        dto.setStatus(entity.getStatus());
+        return dto;
     }
 }

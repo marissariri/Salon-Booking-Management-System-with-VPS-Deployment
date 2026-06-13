@@ -86,6 +86,12 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.8.9</version>
 		</dependency>
+		<!-- NanoID -->
+		<dependency>
+			<groupId>com.aventrix.jnanoid</groupId>
+			<artifactId>jnanoid</artifactId>
+			<version>2.0.0</version>
+		</dependency>
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

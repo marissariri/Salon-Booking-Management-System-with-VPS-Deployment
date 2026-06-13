@@ -1,7 +1,7 @@
 name: CI/CD - Build & Deploy
 
 concurrency:
-  group: deploy-mentor
+  group: deploy-student3
   cancel-in-progress: true
 
 on:
@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: spring-app-mentor
+      IMAGE_NAME: spring-app-student3
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-      APP_DIR: /home/backend/spring-app/mentor
+      APP_DIR: /home/backend/spring-app/student3
 
     steps:
       - name: Checkout source code
@@ -55,7 +55,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          key: ${{ secrets.VPS_SSH_KEY }}
           source: "docker-compose.yml"
           target: "${{ env.APP_DIR }}"
           overwrite: true
@@ -66,22 +66,22 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             cd ${{ env.APP_DIR }}
             echo "🚀 Starting deployment..."
 
             # 📝 Menulis ULANG file .env khusus untuk Production VPS (Gunakan > untuk overwrite)
             echo "DOCKER_HUB_USERNAME=${{ secrets.DOCKER_HUB_USERNAME }}" > .env
-            echo "APP_PORT=9000" >> .env
+            echo "APP_PORT=9003" >> .env
             echo "SPRING_PROFILES_ACTIVE=prod" >> .env
             
             # Konfigurasi Jaringan & Database VPS
             echo "DB_HOST=38.47.180.18" >> .env
             echo "DB_PORT=3306" >> .env
-            echo "DB_NAME=db_store" >> .env
-            echo "DB_USER=root" >> .env
-            echo "DB_PASSWORD=rahasia2026" >> .env 
+            echo "DB_NAME=db_spring_student3" >> .env
+            echo "DB_USER=student3" >> .env
+            echo "DB_PASSWORD=jD8!sK3%mY9v" >> .env 
             
             # Konfigurasi Redis VPS
             echo "REDIS_HOST=host.docker.internal" >> .env
@@ -91,11 +91,11 @@ jobs:
             docker network inspect be_classroom_net >/dev/null 2>&1 || docker network create be_classroom_net
 
             echo "📥 Pulling latest image from Docker Hub..."
-            docker compose pull spring-app-mentor
+            docker compose pull spring-app-student3
 
             echo "🔄 Restarting services..."
             docker compose down
-            docker compose up -d spring-app-mentor
+            docker compose up -d spring-app-student3
 
             echo "⏳ Waiting for container to initialize..."
             sleep 30
@@ -106,6 +106,6 @@ jobs:
               docker compose ps
             else
               echo "❌ Deployment failed! Check application logs below:"
-              docker compose logs spring-app-mentor
+              docker compose logs spring-app-student3
               exit 1
             fi

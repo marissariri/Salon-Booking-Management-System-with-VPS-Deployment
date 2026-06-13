@@ -30,7 +30,7 @@ public class BeauticianService {
         Beautician beautician = new Beautician();
         beautician.setFullName(request.getFullName());
         beautician.setSpecialty(request.getSpecialty());
-        beautician.setStatus(request.getStatus() != null ? request.getStatus() : "ACTIVE");
+        beautician.setStatus(request.getStatus() != null ? Beautician.Status.valueOf(request.getStatus().toUpperCase()) : Beautician.Status.ACTIVE);
         return mapToDTO(repository.save(beautician));
     }
 
@@ -39,7 +39,7 @@ public class BeauticianService {
         beautician.setFullName(request.getFullName());
         beautician.setSpecialty(request.getSpecialty());
         if (request.getStatus() != null) {
-            beautician.setStatus(request.getStatus());
+            beautician.setStatus(Beautician.Status.valueOf(request.getStatus().toUpperCase()));
         }
         return mapToDTO(repository.save(beautician));
     }
@@ -54,7 +54,7 @@ public class BeauticianService {
         dto.setId(entity.getId());
         dto.setFullName(entity.getFullName());
         dto.setSpecialty(entity.getSpecialty());
-        dto.setStatus(entity.getStatus());
+        dto.setStatus(entity.getStatus() != null ? entity.getStatus().name() : null);
         return dto;
     }
 }

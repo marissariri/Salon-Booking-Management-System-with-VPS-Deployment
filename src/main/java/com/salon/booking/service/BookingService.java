@@ -77,4 +77,29 @@ public class BookingService {
 
         return response;
     }
+
+    @Transactional
+    public void cancelBooking(String bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+
+        if (booking.getBookingStatus() == Booking.BookingStatus.CANCELLED) {
+            throw new IllegalStateException("Booking is already cancelled");
+        }
+
+        if (booking.getBookingStatus() == Booking.BookingStatus.COMPLETED) {
+            throw new IllegalStateException("Cannot cancel a completed booking");
+        }
+
+        // Restore available slot
+        Schedule schedule = booking.getSchedule();
+        schedule.setAvailableSlot(schedule.getAvailableSlot() + 1);
+        scheduleRepository.save(schedule);
+
+        // Update booking status
+        booking.setBookingStatus(Booking.BookingStatus.CANCELLED);
+        bookingRepository.save(booking);
+
+        log.info("Booking {} has been cancelled and slot restored.", bookingId);
+    }
 }

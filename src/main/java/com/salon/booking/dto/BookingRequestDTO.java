@@ -5,9 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 @Data
 public class BookingRequestDTO {
-    @NotNull(message = "User ID is required")
-    private String userId;
-
     @NotNull(message = "Schedule ID is required")
     private String scheduleId;
 

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -23,12 +24,12 @@ public class BeauticianController {
     }
 
     @PostMapping
-    public ResponseEntity<BeauticianResponseDTO> create(@RequestBody BeauticianRequestDTO beautician) {
+    public ResponseEntity<BeauticianResponseDTO> create(@Valid @RequestBody BeauticianRequestDTO beautician) {
         return new ResponseEntity<>(service.create(beautician), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public BeauticianResponseDTO update(@PathVariable String id, @RequestBody BeauticianRequestDTO beautician) {
+    public BeauticianResponseDTO update(@PathVariable String id, @Valid @RequestBody BeauticianRequestDTO beautician) {
         return service.update(id, beautician);
     }
 

@@ -30,8 +30,8 @@ public class BookingService {
     private final PaymentRepository paymentRepository;
 
     @Transactional
-    public BookingResponseDTO createBooking(BookingRequestDTO request) {
-        User user = userRepository.findById(request.getUserId())
+    public BookingResponseDTO createBooking(BookingRequestDTO request, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Schedule schedule = scheduleRepository.findByIdWithPessimisticLock(request.getScheduleId())

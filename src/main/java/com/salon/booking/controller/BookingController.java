@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -17,8 +18,9 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public ResponseEntity<BookingResponseDTO> createBooking(@Valid @RequestBody BookingRequestDTO request) {
-        BookingResponseDTO response = bookingService.createBooking(request);
+    public ResponseEntity<BookingResponseDTO> createBooking(@Valid @RequestBody BookingRequestDTO request, Principal principal) {
+        String userEmail = principal.getName();
+        BookingResponseDTO response = bookingService.createBooking(request, userEmail);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

@@ -3,6 +3,8 @@ package com.salon.booking.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -23,15 +25,18 @@ public class BeautyService {
         }
     }
 
+    @NotBlank(message = "Service name is required")
     @Column(name = "service_name", nullable = false, length = 100)
     private String serviceName;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @NotNull(message = "Price is required")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @NotNull(message = "Duration is required")
     @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 

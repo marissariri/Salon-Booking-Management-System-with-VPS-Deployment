@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<Schedule> create(@RequestBody ScheduleRequestDTO scheduleRequestDTO) {
+    public ResponseEntity<Schedule> create(@Valid @RequestBody ScheduleRequestDTO scheduleRequestDTO) {
         return new ResponseEntity<>(service.create(scheduleRequestDTO), HttpStatus.CREATED);
     }
 }
